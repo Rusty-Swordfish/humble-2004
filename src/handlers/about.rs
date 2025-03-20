@@ -1,7 +1,8 @@
+use axum::response::Html;
 use crate::views::about::AboutTemplate;
 use askama::Template;
 
-pub fn handle() {
+pub async fn handle() -> Html<String> {
     let template = AboutTemplate { title: "About Us" };
-    println!("{}", template.render().unwrap());
+    Html(template.render().unwrap())
 }

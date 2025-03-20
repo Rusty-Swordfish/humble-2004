@@ -1,7 +1,8 @@
+use axum::response::Html;
 use crate::views::index::IndexTemplate;
 use askama::Template;
 
-pub fn handle() {
+pub async fn handle() -> Html<String> {
     let template = IndexTemplate { title: "Home" };
-    println!("{}", template.render().unwrap());
+    Html(template.render().unwrap())
 }

@@ -1,12 +1,15 @@
+mod routes;
 mod handlers;
 mod views;
 
-fn main() {
-    let path = "/"; // In a real app, you'd get this from the request
+#[tokio::main]
+async fn main() {
+    let app = routes::create_router();
 
-    match path {
-        "/" => handlers::index::handle(),
-        "/about" => handlers::about::handle(),
-        _ => println!("404 Not Found"),
-    }
+    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 3000));
+    println!("Listening on http://{}", addr);
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }
